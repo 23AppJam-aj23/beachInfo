@@ -145,8 +145,8 @@ input:focus {
   font-size: 10px;
   font-weight: bold;
   overflow: hidden;
-  background: #d95050;
-  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+  background: #4983f6;
+  background: #4983f6 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
 }
 
 .customoverlay .title {
@@ -162,12 +162,13 @@ input:focus {
 .customoverlay:after {
   content: "";
   position: absolute;
-  margin-left: -12px;
-  left: 50%;
-  bottom: -12px;
-  width: 22px;
-  height: 12px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+  margin-left: -30px;
+  left: 65px;
+  bottom: -55px;
+  width: 50px;
+  height: 50px;
+  
+  background: url("/static/img/spoticon.png");
 }
 
 input:focus {
@@ -192,3 +193,21 @@ input:focus {
   box-shadow: 0px 1px 2px #888;
   background-color: #fffff3;
 }
+
+/*notice button*/
+.info-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  z-index: 5;
+  background-image: url("/static/img/noticebt.png");
+  background-size: cover;
+}
+

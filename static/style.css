@@ -149,6 +149,7 @@ input:focus {
   background: #4983f6 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
 }
 
+
 .customoverlay .title {
   display: block;
   text-align: center;
@@ -177,6 +178,21 @@ input:focus {
 
 input:focus {
   outline: none;
+}
+
+.customoverlay2 {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+    
+.customoverlay2 img {
+  margin-right: 10px;
 }
 
 .customoverlay2 {

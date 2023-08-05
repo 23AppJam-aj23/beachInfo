@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<title>newinfo</title>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Pretendard%3A500%2C600%2C700"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A500%2C600%2C700"
+		/>
+		<link rel="stylesheet" href="/static/info.css" />
+		<script
+			type="text/javascript"
+			src="/static/js/beach_data_code.js"
+		></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
+		<script
+			type="text/javascript"
+			charset="utf-8"
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"
+		></script>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<div class="iphone-14-pro-2-M5s">
+			<img
+				class="frame-18-Rjw"
+				src="/static/assets/frame-18.png"
+				onclick="window.location.href='/'"
+			/>
+			<div class="auto-group-hgdk-4Y1">
+				<div class="auto-group-tyxj-TMB">
+					<p class="item--uys"></p>
+					<p class="item-1-45-Gxq"></p>
+				</div>
+				<div class="group-7-LSu">
+					<img
+						class="fluent-emoji-smiling-face-with-smiling-eyes-1ow"
+						src="/static/assets/fluent-emoji-smiling-face-with-smiling-eyes.png"
+					/>
+					<p class="item--sr9">혼잡도 낮음</p>
+				</div>
+			</div>
+			<p class="item--81P">바다 정보</p>
+			<img class="image-10-aty" src="/static/assets/image-10.png" />
+			<div class="frame-191-e89">
+				<div class="frame-201-gad">
+					<img
+						class="solar-temperature-linear-KNh"
+						src="/static/assets/solar-temperature-linear.png"
+					/>
+					<div class="frame-192-aZX">
+						<p class="c-qEZ"></p>
+					</div>
+				</div>
+				<img class="vector-218-7rH" />
+				<div class="frame-202-cwT">
+					<img
+						class="solar-wind-linear-JJV"
+						src="/static/assets/solar-wind-linear.png"
+					/>
+					<div class="frame-193-mxm">
+						<p class="item--sW1"></p>
+					</div>
+				</div>
+				<img class="vector-219-CRo" />
+				<div class="frame-203-9M3">
+					<img
+						class="solar-water-bold-Fus"
+						src="/static/assets/solar-water-bold.png"
+					/>
+					<div class="frame-194-y5B">
+						<p class="c-7BP"></p>
+					</div>
+				</div>
+			</div>
+			<p class="item--hQV">통계 및 그래프</p>
+			<div class="frame-197-ZSh">
+				<div class="frame-196-2r5">
+					<div class="frame-197-88R">
+						<p class="item--HGD">파고</p>
+						<img class="vector-220-p1F" />
+					</div>
+					<div class="frame-198-N2m">
+						<p class="item--va5">기온</p>
+						<img class="vector-220-qh3" />
+					</div>
+					<div class="frame-199-C1o">
+						<p class="item--wzy">강수</p>
+						<img class="vector-220-fvy" />
+					</div>
+					<div class="frame-200-onH">
+						<p class="item--AMw">습도</p>
+						<img class="vector-220-h6y" />
+					</div>
+				</div>
+				<div class="auto-group-hfl1-eH7">
+					<div class="auto-group-6p17-mMj">
+						<p class="item-10-uD3">10</p>
+						<p class="item-5-22m">5</p>
+						<p class="item-1-ZoP">1</p>
+					</div>
+					<img
+						class="group-1357-7a1"
+						src="/static/assets/group-1357.png"
+					/>
+				</div>
+				<div class="auto-group-zcez-T85">
+					<p class="item-16-nw3">16시</p>
+					<p class="item-17-sxV">17시</p>
+					<p class="item-18-L5P">18시</p>
+					<p class="item-19-f7f">19시</p>
+					<p class="item-20-nxy">20시</p>
+					<p class="item-21-XQm">21시</p>
+					<p class="item-22-G7T">22시</p>
+					<p class="item-23-Pxm">23시</p>
+				</div>
+			</div>
+		</div>
+		<script>
+			let urlParams = new URL(window.location.href);
+			urlParams = urlParams.searchParams;
+			let info;
+			let beach_num = {{ infoNum }};
+			let beach_info = beachData1();
+			$(".item--uys").text(beach_info[beach_num - 1].title);
+			console.log(beach_info[beach_num - 1].title);
+
+			var url =
+				"https://beach.wsuk.dev/beachData/" +
+				beach_info[beach_num - 1].code;
+			fetch(url)
+				.then((res) => res.json())
+				.then((toJson) => {
+					info = toJson.result.data[0];
+					let ymdArray = String(info.obs_time)
+						.split(" ")[0]
+						.split("-");
+					if (ymdArray[0] === "undefined") {
+						ymd = "날짜 업데이트되지 않음";
+					} else {
+						ymd =
+							ymdArray[0] +
+							"년 " +
+							ymdArray[1] +
+							"월 " +
+							ymdArray[2] +
+							"일 " +
+							String(info.obs_time).split(" ")[1];
+					}
+					$(".item-1-45-Gxq").text(ymd);
+
+					if (info.water_temp === undefined) {
+						$(".c-qEZ").text("19°C");
+					} else {
+						$(".c-qEZ").text(String(info.water_temp) + "°C");
+					}
+
+					if (info.wind_direct === undefined) {
+						$(".item--sW1").text("서남서");
+					} else {
+						$(".item--sW1").text(String(info.wind_direct));
+					}
+
+					if (info.tide === undefined) {
+						$(".c-7BP").text("25m");
+					} else {
+						$(".c-7BP").text(String(info.tide) + "m");
+					}
+				});
+		</script>
+	</body>
+</html>

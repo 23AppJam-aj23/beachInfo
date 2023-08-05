@@ -63,7 +63,7 @@ class App {
 
 window.onload = () => {
   let pago = 0;
-  var url = "https://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach?serviceKey=TiqNpNbCpVuI1Yyp2LDPG6eI0smIFw2J1%2FQuKQBC%2FT6HlOUdntcoh%2FjTrngnBgoZea3BCdbDE%2F2BjvIymxlSrw%3D%3D&numOfRows=1&pageNo=10&dataType=JSON&beach_num=" + beach_num + "&searchTime=" + year + month + date + hours + minutes;
+  var url = "https://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach?serviceKey=K5fygs3Ao38zhEsyxA2qi4TnFk1O6Q4Rpwok1XdloMNXSfLFOf1VNbuUV7zKFSIZZvgnFw8Iz2cCqzO0Eyvoyw%3D%3D&numOfRows=1&pageNo=10&dataType=JSON&beach_num=" + beach_num + "&searchTime=" + year + month + date + hours + minutes;
   fetch(url)
     .then(res => res.json())
     .then(toJson => {

@@ -6,4 +6,8 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-app.run(debug=True, host='0.0.0.0', port=3000)
+@app.route('/info/<infoNum>')
+def info(infoNum):
+    return render_template('info.html', infoNum=infoNum)
+
+app.run(debug=True, host='0.0.0.0', port=30000)

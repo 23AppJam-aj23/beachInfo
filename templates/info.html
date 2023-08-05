@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>해수욕장 정보</title>
-		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=04c3ceb47c6f2051a73fd25ba1c4cf01"></script>
+		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5ab2f5010904bd9717a13d48c2d8de74"></script>
 		<script
 			type="text/javascript"
 			src="/static/js/beach_data_code.js"
@@ -38,7 +38,7 @@
 								color: white;
 								font-size: 25px;
 							"
-							href="index.html"
+							href="/"
 							>←</a
 						><br />
 						<div
@@ -318,7 +318,7 @@
 				let urlParams = new URL(window.location.href);
 				urlParams = urlParams.searchParams;
 				let info;
-				let beach_num = urlParams.get("num");
+				let beach_num = {{ infoNum }};
 				let beach_info = beachData1();
 				$("#beach_name").text(beach_info[beach_num - 1].title);
 

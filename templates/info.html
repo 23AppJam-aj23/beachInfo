@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>해수욕장 정보</title>
+		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=04c3ceb47c6f2051a73fd25ba1c4cf01"></script>
+		<script
+			type="text/javascript"
+			src="/static/js/beach_data_code.js"
+		></script>
+		<script type="text/javascript" src="/static/js/comment.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
+		<script
+			type="text/javascript"
+			charset="utf-8"
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"
+		></script>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="/static/style.css" />
+	</head>
+	<body style="background-color: #fafbfc">
+		<div style="background-color: #225ae9">
+			<div class="container">
+				<div class="row" style="margin: 0px">
+					<div class="col-8">
+						<a
+							class="container position-absolute top-0 start-50 translate-middle-x mt-2"
+							style="
+								text-decoration: none;
+								color: white;
+								font-size: 25px;
+							"
+							href="index.html"
+							>←</a
+						><br />
+						<div
+							class="continaer position-absolute top-0 start-50 translate-middle-x mt-3 col-9"
+						></div>
+						<h2
+							class="container fw-bold"
+							id="beach_name"
+							style="
+								color: white;
+								padding-bottom: 100px;
+								padding-top: 30px;
+							"
+						></h2>
+					</div>
+					<div class="col-4">
+						<div
+							class="container"
+							style="float: right; width: 120px"
+						>
+							<h6
+								class="fw-bold"
+								style="
+									color: white;
+									text-align: center;
+									position: relative;
+									top: 10px;
+								"
+							>
+								혼잡도 신호등
+							</h6>
+							<div
+								class="shadow-sm p-3 mb-3 rounded-pill"
+								style="
+									background-color: #1a1a1a;
+									position: relative;
+									top: 5px;
+								"
+							>
+								<div
+									class="rounded-circle"
+									id="t-light"
+									style="
+										float: left;
+										width: 19px;
+										height: 20px;
+										margin-right: 5px;
+									"
+								></div>
+								<h6
+									class="fw-bold"
+									id="cng"
+									style="margin-bottom: 0; color: white"
+								></h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" style="position: relative; top: -90px">
+			<div class="shadow-sm p-3 mb-3 bg-body rounded container col-12">
+				<div class="row">
+					<div class="col-8">
+						<h2 id="danger" class="container fw-bold">
+							주의보 로드 중...
+						</h2>
+						<h6 class="container" id="danger_info"></h6>
+					</div>
+					<div class="col-4">
+						<h6
+							class="container"
+							id="obs_time"
+							style="text-align: right"
+						></h6>
+					</div>
+				</div>
+
+				<h2
+					class="fw-bold container col-12"
+					id="wind"
+					style="text-align: center"
+				>
+					풍속
+				</h2>
+				<div class="container" style="width: 230px">
+					<canvas id="chart8"></canvas>
+				</div>
+				<div
+					class="container"
+					style="text-align: center; margin-bottom: 10px"
+				></div>
+				<table
+					class="container col-10"
+					style="text-align: center; table-layout: fixed"
+				>
+					<th>수온</th>
+					<th>풍향</th>
+					<th>조위</th>
+					<tr>
+						<td id="water_temp"></td>
+						<td id="wind_direct"></td>
+						<td id="tide"></td>
+					</tr>
+				</table>
+				<!-- 탭 -->
+			</div>
+			<div class="shadow-sm p-3 mb-3 bg-body rounded container col-12">
+				<div class="container">
+					<ul class="tabs container">
+						<li class="tab-link current" data-tab="tab-1">파고</li>
+						<li class="tab-link" data-tab="tab-2">기온</li>
+						<li class="tab-link" data-tab="tab-3">강수</li>
+						<li class="tab-link" data-tab="tab-4">습도</li>
+					</ul>
+					<div id="tab-1" class="tab-content current">
+						<img
+							src="/static/img/height.png"
+							style="float: left"
+							width="30px"
+						/>
+						<h4 id="wave-height"></h4>
+					</div>
+					<div id="tab-2" class="tab-content">
+						<canvas
+							id="temp-chart"
+							width="300"
+							height="100"
+						></canvas>
+					</div>
+					<div id="tab-3" class="tab-content">
+						<canvas
+							id="rain-chart"
+							width="300"
+							height="100"
+						></canvas>
+					</div>
+					<div id="tab-4" class="tab-content">
+						<canvas
+							id="humidity-chart"
+							width="300"
+							height="100"
+						></canvas>
+					</div>
+				</div>
+			</div>
+
+			<div class="shadow-sm p-3 mb-3 bg-body rounded container col-12">
+				<div>
+					<div>
+						<h5 class="container fw-bold">
+							이용객 리뷰
+							<button
+								class="btn rounded-pill btn-outline-primary right-box"
+								id="testBtn"
+							>
+								리뷰 작성
+							</button>
+						</h5>
+						<br />
+					</div>
+					<h4 class="container">★ 0.0</h4>
+				</div>
+				<div class="container" id="comments_list"></div>
+
+				<!-- 모달 Modal -->
+				<div class="modal" id="testModal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title fw-bold">리뷰 작성</h5>
+								<button
+									type="button"
+									class="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"
+								></button>
+							</div>
+							<div class="modal-body">
+								<div class="container mb-3">
+									<label for="user_name" class="form-label"
+										>이름</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="user_name"
+										style="margin-bottom: 10px"
+										placeholder="이름"
+										st
+									/>
+
+									<label for="user_pwd" class="form-label"
+										>비밀번호</label
+									>
+									<input
+										type="password"
+										class="form-control"
+										id="user_pwd"
+										style="margin-bottom: 10px"
+										placeholder="비밀번호"
+									/>
+
+									<label for="user_star" class="form-label"
+										>평점</label
+									>
+									<select
+										class="form-select"
+										aria-label="Default select example"
+										id="user_star"
+									>
+										<option selected>평점</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
+									<label for="user_content" class="form-label"
+										>내용</label
+									>
+									<textarea
+										class="form-control"
+										id="user_content"
+										rows="3"
+									></textarea>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal"
+								>
+									취소
+								</button>
+								<button
+									type="button"
+									class="btn btn-primary"
+									onclick="addComment(beach_num)"
+								>
+									게시
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				$(document).ready(function () {
+					$("ul.tabs li").click(function () {
+						var tab_id = $(this).attr("data-tab");
+
+						$("ul.tabs li").removeClass("current");
+						$(".tab-content").removeClass("current");
+
+						$(this).addClass("current");
+						$("#" + tab_id).addClass("current");
+					});
+				});
+			</script>
+			<script>
+				$("#testBtn").click(function (e) {
+					e.preventDefault();
+					$("#testModal").modal("show");
+				});
+			</script>
+
+			<!-- API script -->
+			<script>
+				function isUndefined(str) {
+					return String(str) === "undefined";
+				}
+
+				let urlParams = new URL(window.location.href);
+				urlParams = urlParams.searchParams;
+				let info;
+				let beach_num = urlParams.get("num");
+				let beach_info = beachData1();
+				$("#beach_name").text(beach_info[beach_num - 1].title);
+
+				var url =
+					"https://www.khoa.go.kr/api/oceangrid/beach/search.do?ServiceKey=J17oJtuWp5DrMImonXgIsw==&BeachCode=" +
+					beach_info[beach_num - 1].code +
+					"&ResultType=json";
+
+				fetch(url)
+					.then((res) => res.json())
+					.then((toJson) => {
+						info = toJson.result.data[0];
+						console.log(info);
+						let ymdArray = String(info.obs_time)
+							.split(" ")[0]
+							.split("-");
+						if (isUndefined(ymdArray[0])) {
+							ymd = "날짜 업데이트되지 않음";
+						} else {
+							ymd =
+								ymdArray[0] +
+								"년 " +
+								ymdArray[1] +
+								"월 " +
+								ymdArray[2] +
+								"일 " +
+								String(info.obs_time).split(" ")[1];
+						}
+						$("#obs_time").text(ymd);
+
+						if (isUndefined(info.water_temp)) {
+							$("#water_temp").text("정보 없음");
+						} else {
+							$("#water_temp").text(
+								String(info.water_temp) + "°C"
+							);
+						}
+
+						if (isUndefined(info.wind_direct)) {
+							$("#wind_direct").text("정보 없음");
+						} else {
+							$("#wind_direct").text(String(info.wind_direct));
+						}
+
+						if (isUndefined(info.tide)) {
+							$("#tide").text("정보 없음");
+						} else {
+							$("#tide").text(String(info.tide) + "m");
+						}
+					})
+					.then(() => {
+						// Percentage Chart
+						if (isUndefined(info.wind_speed)) {
+							$("#chart8").text(정보없음);
+						} else {
+							var num = info.wind_speed / 12;
+							var data = {
+								labels: ["blue"],
+								datasets: [
+									{
+										data: [num, 1 - num],
+										backgroundColor: ["#2350FF"],
+										hoverBackgroundColor: ["#2350FF"],
+									},
+								],
+							};
+							var ctx8 = $("#chart8").get(0).getContext("2d");
+							window.theChart8 = new Chart(ctx8, {
+								type: "doughnut",
+								data: data,
+								options: {
+									responsive: true,
+									legend: {
+										display: false,
+									},
+									elements: {
+										center: {
+											text: Math.round(num * 12),
+											fontStyle: "Helvetica", //Default Arial
+											sidePadding: 15, //Default 20 (as a percentage)
+										},
+									},
+									maintainAspectRatio: false,
+									cutoutPercentage: 70,
+									animation: false,
+									rotation: 1 * Math.PI,
+									circumference: 1 * Math.PI,
+								},
+							});
+						}
+					});
+
+				const addZero = (x) => {
+					if (x >= 10) {
+						return String(x);
+					} else {
+						return "0" + String(x);
+					}
+				};
+				let today = new Date();
+				let year = String(today.getFullYear()); // 년도
+				let month = addZero(today.getMonth() + 1); // 월
+				let date = addZero(today.getDate()); // 날짜
+				let hours = addZero(Math.max(0, today.getHours() - 1)); // 시
+				let minutes = addZero(today.getMinutes()); // 분
+
+				var url =
+					"https://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach?serviceKey=TiqNpNbCpVuI1Yyp2LDPG6eI0smIFw2J1%2FQuKQBC%2FT6HlOUdntcoh%2FjTrngnBgoZea3BCdbDE%2F2BjvIymxlSrw%3D%3D&numOfRows=100&pageNo=1&dataType=JSON&base_date=" +
+					year +
+					month +
+					date +
+					"&base_time=" +
+					hours +
+					minutes +
+					"&beach_num=" +
+					beach_num;
+
+				fetch(url)
+					.then((res) => res.json())
+					.then((toJson) => {
+						console.log(toJson.response.body.items.item);
+						let weatherData = toJson.response.body.items.item;
+						let weatherObject = {
+							LGT: [],
+							T1H: [], // 기온 *
+							RN1: [], // 1시간 강수량
+							SKY: [], // 하늘 상태 (맑음(1), 구름많음(3), 흐림(4), 전운량 0~5(맑음), 전운량 6~8(구름많음), 전운량 9~10(흐림))
+							UUU: [], // 동서바람성분 *
+							VVV: [], // 남북바람성분 *
+							REH: [], // 습도 *
+							PTY: [], // 강수형태 (없음(0), 비(1), 비/눈(2), 눈(3), 빗방울(5), 빗방울눈날림(6), 눈날림(7)) *
+							VEC: [], // 풍향 *
+							WSD: [], // 풍속 *
+						};
+						for (var i = 0; i < weatherData.length; i++) {
+							weatherObject[weatherData[i].category].push(
+								weatherData[i]
+							);
+						}
+						console.log(weatherObject);
+
+						let tempList = [];
+						let humidityList = [];
+						let rainList = [];
+						var timeList = [];
+						for (var i = 0; i < weatherObject["T1H"].length; i++) {
+							timeList.push(
+								weatherObject["T1H"][i].fcstTime.substring(
+									0,
+									2
+								) + "시"
+							);
+							tempList.push(weatherObject["T1H"][i].fcstValue);
+						}
+						console.log(timeList);
+						console.log(tempList);
+						new Chart(document.getElementById("temp-chart"), {
+							type: "line",
+							data: {
+								labels: timeList,
+								datasets: [
+									{
+										data: tempList,
+										borderColor: "#ff787c",
+										fill: false,
+									},
+								],
+							},
+							options: {
+								legend: {
+									display: false,
+								},
+								scales: {
+									yAxes: [
+										{
+											ticks: {
+												min: 10,
+												max: 35,
+												fontSize: 14,
+											},
+										},
+									],
+								},
+							},
+						});
+						var timeList = [];
+						for (var i = 0; i < weatherObject["RN1"].length; i++) {
+							timeList.push(
+								weatherObject["RN1"][i].fcstTime.substring(
+									0,
+									2
+								) + "시"
+							);
+							rainList.push(weatherObject["RN1"][i].fcstValue);
+						}
+						console.log(timeList);
+						console.log(rainList);
+						new Chart(document.getElementById("rain-chart"), {
+							type: "line",
+							data: {
+								labels: timeList,
+								datasets: [
+									{
+										data: rainList,
+										fill: true,
+										stepped: true,
+									},
+								],
+							},
+							options: {
+								responsive: true,
+								interaction: {
+									intersect: false,
+									axis: "x",
+								},
+								legend: {
+									display: false,
+								},
+								scales: {
+									yAxes: [
+										{
+											ticks: {
+												min: 0,
+												max: 50,
+												fontSize: 14,
+											},
+										},
+									],
+								},
+							},
+						});
+						var timeList = [];
+						for (var i = 0; i < weatherObject["REH"].length; i++) {
+							timeList.push(
+								weatherObject["REH"][i].fcstTime.substring(
+									0,
+									2
+								) + "시"
+							);
+							humidityList.push(
+								weatherObject["REH"][i].fcstValue
+							);
+						}
+						console.log(timeList);
+						console.log(humidityList);
+						new Chart(document.getElementById("humidity-chart"), {
+							type: "bar",
+							data: {
+								labels: timeList,
+								datasets: [
+									{
+										data: humidityList,
+										fill: false,
+										backgroundColor: "#225ae9cf",
+									},
+								],
+							},
+							options: {
+								legend: {
+									display: false,
+								},
+								scales: {
+									yAxes: [
+										{
+											ticks: {
+												min: 0,
+												max: 100,
+												fontSize: 14,
+											},
+										},
+									],
+								},
+							},
+						});
+					});
+				url =
+					"https://www.tournmaster.com/seantour_map/travel/%20getBeachCongestionApi.do";
+				fetch(url)
+					.then((res) => res.json())
+					.then((toJson) => {
+						let cng =
+							toJson[beach_info[beach_num - 1].congestion]
+								.congestion;
+						if (cng == "1") {
+							$("#cng").text("보통");
+							$("#t-light").css("background-color", "#04c604");
+						} else if (cng == "2") {
+							$("#cng").text("보통");
+							$("#t-light").css("background-color", "yellow");
+						} else if (cng == "3") {
+							$("#cng").text("보통");
+							$("#t-light").css("background-color", "red");
+						} else {
+							$("#cng").text("");
+						}
+					});
+			</script>
+
+			<script src="/static/js/percent_chart.js"></script>
+			<script type="module" src="wave_module.js"></script>
+			<script
+				type="module"
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+				integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+				crossorigin="anonymous"
+			></script>
+		</div>
+	</body>
+</html>

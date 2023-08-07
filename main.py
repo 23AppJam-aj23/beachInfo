@@ -58,4 +58,4 @@ def notice():
 # def newinfo(infoNum):
 #     return render_template('newinfo.html', infoNum=infoNum)
 
-app.run(debug=True, host='0.0.0.0', port=30000)
+app.run(host='0.0.0.0', port=20003)
